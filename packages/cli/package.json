@@ -1,0 +1,29 @@
+{
+  "name": "@control-center/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "featurectl": "./src/index.ts"
+  },
+  "exports": {
+    "./commands": "./src/commands.ts",
+    "./contracts": "./src/contracts.ts",
+    "./types": "./src/types.ts"
+  },
+  "scripts": {
+    "featurectl": "tsx src/index.ts",
+    "test": "tsx --test src/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@control-center/adapter-farmakomed": "0.1.0",
+    "@control-center/core": "0.1.0",
+    "commander": "^12.1.0",
+    "execa": "^9.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "tsx": "^4.7.2"
+  }
+}

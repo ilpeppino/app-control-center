@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.app-control-center/schemas/project-contract.schema.json",
+  "title": "Feature Flag Control Center Project Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "projectId",
+    "displayName",
+    "repoPath",
+    "environments",
+    "flagFiles",
+    "validationCommands",
+    "deployCommands",
+    "rollback",
+    "safetyRules",
+    "featureFlags"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "minLength": 2
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapterName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/environment"
+      },
+      "minItems": 2,
+      "uniqueItems": true,
+      "contains": {
+        "const": "dev"
+      }
+    },
+    "flagFiles": {
+      "$ref": "#/$defs/environmentStringMap"
+    },
+    "validationCommands": {
+      "$ref": "#/$defs/environmentStringMap"
+    },
+    "deployCommands": {
+      "$ref": "#/$defs/environmentStringMap"
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshotPath"],
+      "properties": {
+        "snapshotPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retentionDays": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "safetyRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "productionRequiresConfirmation",
+        "highRiskProductionRequiresAcknowledgement",
+        "createRollbackSnapshotBeforeApply",
+        "blockDeployIfValidationFails"
+      ],
+      "properties": {
+        "productionRequiresConfirmation": {
+          "const": true
+        },
+        "highRiskProductionRequiresAcknowledgement": {
+          "const": true
+        },
+        "createRollbackSnapshotBeforeApply": {
+          "const": true
+        },
+        "blockDeployIfValidationFails": {
+          "const": true
+        }
+      }
+    },
+    "featureFlags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/featureFlag"
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "environment": {
+      "type": "string",
+      "enum": ["dev", "prd"]
+    },
+    "environmentStringMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dev", "prd"],
+      "properties": {
+        "dev": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prd": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "featureFlag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "label",
+        "description",
+        "category",
+        "type",
+        "defaultValue",
+        "devValue",
+        "prdValue",
+        "risk",
+        "requiresBuild"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]*$",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "const": "boolean"
+        },
+        "defaultValue": {
+          "type": "boolean"
+        },
+        "devValue": {
+          "type": "boolean"
+        },
+        "prdValue": {
+          "type": "boolean"
+        },
+        "risk": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "requiresBuild": {
+          "type": "boolean"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "../../packages/core/schemas/project-contract.schema.json",
+  "projectId": "farmakomed",
+  "displayName": "FarmakoMed",
+  "adapterName": "farmakomed",
+  "repoPath": "/Volumes/DevSSD/projects/farmakomed",
+  "environments": ["dev", "prd"],
+  "flagFiles": {
+    "dev": "src/services/features/featureFlags.dev.ts",
+    "prd": "src/services/features/featureFlags.prd.ts"
+  },
+  "validationCommands": {
+    "dev": "npm run ci:validate",
+    "prd": "npm run ci:validate"
+  },
+  "deployCommands": {
+    "dev": "npm run build:android:apk:dev",
+    "prd": "npm run build:android:apk:prd"
+  },
+  "rollback": {
+    "snapshotPath": "projects/farmakomed/snapshots",
+    "retentionDays": 30
+  },
+  "safetyRules": {
+    "productionRequiresConfirmation": true,
+    "highRiskProductionRequiresAcknowledgement": true,
+    "createRollbackSnapshotBeforeApply": true,
+    "blockDeployIfValidationFails": true
+  },
+  "featureFlags": [
+    {
+      "key": "advanced_ai_assistant",
+      "label": "Advanced AI Assistant",
+      "description": "Enables advanced AI assistance capabilities behind FarmakoMed feature gating.",
+      "category": "AI",
+      "type": "boolean",
+      "defaultValue": false,
+      "devValue": true,
+      "prdValue": false,
+      "risk": "high",
+      "requiresBuild": true,
+      "owner": "AI"
+    },
+    {
+      "key": "caregiver_sync",
+      "label": "Caregiver Sync",
+      "description": "Enables caregiver synchronization capabilities.",
+      "category": "Caregiver",
+      "type": "boolean",
+      "defaultValue": false,
+      "devValue": true,
+      "prdValue": false,
+      "risk": "high",
+      "requiresBuild": true,
+      "owner": "Care"
+    },
+    {
+      "key": "cloud_backup",
+      "label": "Cloud Backup",
+      "description": "Enables cloud backup capabilities when supported by the app.",
+      "category": "Cloud",
+      "type": "boolean",
+      "defaultValue": false,
+      "devValue": false,
+      "prdValue": false,
+      "risk": "high",
+      "requiresBuild": true,
+      "owner": "Platform"
+    },
+    {
+      "key": "pdf_extraction",
+      "label": "PDF Extraction",
+      "description": "Enables PDF extraction capability gating.",
+      "category": "Document Processing",
+      "type": "boolean",
+      "defaultValue": false,
+      "devValue": true,
+      "prdValue": false,
+      "risk": "high",
+      "requiresBuild": true,
+      "owner": "Document AI"
+    },
+    {
+      "key": "premium_reminders",
+      "label": "Premium Reminders",
+      "description": "Enables premium reminder capability gating.",
+      "category": "Reminders",
+      "type": "boolean",
+      "defaultValue": false,
+      "devValue": false,
+      "prdValue": false,
+      "risk": "medium",
+      "requiresBuild": true,
+      "owner": "Product"
+    },
+    {
+      "key": "ai_subscription_upsell",
+      "label": "AI Subscription Upsell",
+      "description": "Enables AI subscription upsell surfaces.",
+      "category": "Monetization",
+      "type": "boolean",
+      "defaultValue": false,
+      "devValue": false,
+      "prdValue": false,
+      "risk": "medium",
+      "requiresBuild": true,
+      "owner": "Product"
+    },
+    {
+      "key": "health_connect_import",
+      "label": "Health Connect Import",
+      "description": "Enables Health Connect import capability gating.",
+      "category": "Health Data",
+      "type": "boolean",
+      "defaultValue": true,
+      "devValue": true,
+      "prdValue": true,
+      "risk": "medium",
+      "requiresBuild": true,
+      "owner": "Health"
+    }
+  ]
+}
